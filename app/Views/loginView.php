@@ -1,4 +1,6 @@
-<div style='width: 35%;  margin: auto; margin-top: 7%; padding: 0 5% 0 5%;'>
+
+
+<div class="login-and-register">
 
 
 		<!-- Pills navs -->
@@ -39,13 +41,13 @@
 
 			  <!-- Email input -->
 			  <div class="form-outline mb-4">
-				<input type="email" id="loginEmail" class="form-control" required />
+				<input type="email" id="loginEmail" class="form-control"  />
 				<label class="form-label" for="loginEmail">Email</label>
 			  </div>
 
 			  <!-- Password input -->
 			  <div class="form-outline mb-4">
-				<input type="password" id="loginPassword" class="form-control" required />
+				<input type="password" id="loginPassword" class="form-control"  />
 				<label class="form-label" for="loginPassword">Password</label>
 			  </div>
 
@@ -82,31 +84,31 @@
 
 			  <!-- First Name input -->
 			  <div class="form-outline mb-4">
-				<input type="text" id="registerFirstName" class="form-control" required />
+				<input type="text" id="registerFirstName" class="form-control"  />
 				<label class="form-label" for="registerName">First Name</label>
 			  </div>
 
 			  <!-- Last Name input -->
 			  <div class="form-outline mb-4">
-				<input type="text" id="registerLastName" class="form-control" required />
+				<input type="text" id="registerLastName" class="form-control"  />
 				<label class="form-label" for="registerLastName">Last Name</label>
 			  </div>
 
 			  <!-- Email input -->
 			  <div class="form-outline mb-4">
-				<input type="email" id="registerEmail" class="form-control" required />
+				<input type="email" id="registerEmail" class="form-control"  />
 				<label class="form-label" for="registerEmail">Email</label>
 			  </div>
 
 			  <!-- Password input -->
 			  <div class="form-outline mb-4">
-				<input type="password" id="registerPassword" class="form-control" required />
+				<input type="password" id="registerPassword" class="form-control"  />
 				<label class="form-label" for="registerPassword">Password</label>
 			  </div>
 
 			  <!-- Repeat Password input -->
 			  <div class="form-outline mb-4">
-				<input type="password" id="registerRepeatPassword" class="form-control" required />
+				<input type="password" id="registerRepeatPassword" class="form-control"  />
 				<label class="form-label" for="registerRepeatPassword">Repeat password</label>
 			  </div>
 
@@ -188,7 +190,7 @@ document.getElementById('loginBtn').addEventListener('click', function(){
 			password: loginPassword.value,
 		};
 		
-		ajaxRequest('/handleSginin', data);
+		ajaxRequest("<?= base_url('/handleSginin') ?>", data);
 	}
 });
 
@@ -236,7 +238,7 @@ document.getElementById('registerBtn').addEventListener('click', function(){
 			password: registerRepeatPassword.value,
 		};
 		
-		ajaxRequest('/handleRegister', data);
+		ajaxRequest("<?= base_url('handleRegister') ?>", data);
 	}
 });
 

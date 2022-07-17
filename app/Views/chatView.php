@@ -153,6 +153,7 @@ body{margin-top:20px;}
 
 					<div class="flex-grow-0 py-3 px-4 border-top">
 						<div class="input-group">
+                            <div class="myBtn"><button type="button" id="callPhone2" class="btn btn-primary">Call</button></div>
 							<input id="userMessage" type="text" class="form-control" placeholder="Type your message">
 							<button type="button" id="sendBtn" class="btn btn-primary">Send</button>
 						</div>
@@ -170,21 +171,24 @@ body{margin-top:20px;}
 
 
 <!-- Modal -->
-<div class="modal top fade" id="popupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mdb-backdrop="false" data-mdb-keyboard="true">
-  <div class="modal-dialog modal-sm  modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="errorTitle">Login</h5>
-        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div id="errorMessage" class="modal-body"></div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
+<div class="modal top fade" id="popupModal" tabindex="-1" aria-labelledby="popupModal" aria-hidden="true" data-mdb-backdrop="false" data-mdb-keyboard="true">
+	<div class="modal-dialog modal-sm  modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="errorTitle">Stream</h5>
+				<button id="modalClose" type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+			</div>
+			
+			<div id="errorMessage" class="modal-body">
+				<!-- BODY -->
+				<video id="videoStream" width="100%" height="100%" autoplay="true" poster="/img/loadingGIF2.gif"></video>
+			</div>
+			
+			<div class="modal-footer">
+				<button id="modalClose" type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 
@@ -224,45 +228,6 @@ function isJSON(str) {
     }
     return true;
 }
-</script>
-
-<script type="text/javascript" >
-// WebSocket
-const conn = new WebSocket('ws://192.168.1.6:8080?user_id=<?= $user_id ?>');
-
-conn.onopen = function(e){
-	console.log('Connection Established!');
-};
-
-conn.onmessage = function(e) {
-	// console.log(e.data);
-	if(isJSON(e.data)){
-		let data = JSON.parse(e.data);
-		if(data.hasOwnProperty('isMessage')){
-			scrollChat();
-			showOtherMessage(data.body, data.firstName + " " + data.lastName);
-		}else if(data.hasOwnProperty('online')){
-			let user = data.online;
-			// addOnlineUser(user);
-			user.forEach(addOnlineUser);
-		}else if(data.hasOwnProperty('offline')){
-			// Remove user from left list
-			if(document.getElementById(data.offline.resource_id))
-				document.getElementById(data.offline.resource_id).remove();
-		}
-		
-	}
-};
-
-conn.onclose = function(e) {
-	console.log('Connection is Closed!');
-};
-
-conn.onerror = function(error) {
-	console.log(error);
-	console.log('Error!: ', error.message);
-};
-
 </script>
 
 <script type="text/javascript" >
@@ -331,9 +296,74 @@ function addOnlineUser(user){
 
 </script>
 
+<script type="text/javascript" >
+// WebSocket
+const conn = new WebSocket('ws://192.168.1.6:8080?user_id=<?= $user_id ?>');
 
+conn.onopen = function(e){
+	console.log('Connection Established!');
+};
 
+conn.onmessage = function(e) {
+	// console.log(e.data);
+	if(isJSON(e.data)){
+		let data = JSON.parse(e.data);
 
+		if(data.hasOwnProperty('isMessage')){
+			scrollChat();
+			showOtherMessage(data.body, data.firstName + " " + data.lastName);
+		}else if(data.hasOwnProperty('online')){
+			let user = data.online;
+			// addOnlineUser(user);
+			user.forEach(addOnlineUser);
+		}else if(data.hasOwnProperty('offline')){
+			// Remove user from left list
+			if(document.getElementById(data.offline.resource_id))
+				document.getElementById(data.offline.resource_id).remove();
+
+		}else if(data.hasOwnProperty('type')){
+
+            if(data.type == 'offer'){
+                createAnswer(data.offer);
+                popupModal.toggle();
+
+            }else if(data.type == 'answer'){
+                addAnswer(data.answer);
+
+            }else if(data.type == 'ice'){
+                if(peerConn){
+                    peerConn.addIceCandidate(data.ice).then(function () {
+                        console.log('Add ICE Candidate!');
+                    }).catch(e => {
+                        console.log("Failure during addIceCandidate(): " + e.name);
+                    });
+                }
+            }
+			
+
+		}else if(data.hasOwnProperty('camera')){
+            console.log(stream);
+            stream.getTracks().forEach(function(track) {
+                track.stop();
+            });
+        }
+		
+	}
+};
+
+conn.onclose = function(e) {
+	console.log('Connection is Closed!');
+};
+
+conn.onerror = function(error) {
+	console.log(error);
+	console.log('Error!: ', error.message);
+};
+
+</script>
+
+<!-- MDB -->
+<script type="text/javascript" src="js/mdb.min.js"></script>
 
 
 
@@ -342,11 +372,21 @@ function addOnlineUser(user){
 	WebRTC -----------------------------------------------------
 */
 
-let play = document.getElementById('callPhone');
-let pause = document.getElementById('callVideo');
-let video = document.getElementById('video');
+let startVideoCall = document.getElementById('callPhone2');
+let startPhoneCall = document.getElementById('callVideo');
+let video = document.getElementById('videoStream');
+video.autoplay = true;
+
+
+const popupModal = new mdb.Modal(document.getElementById('popupModal'));
+
+startVideoCall.addEventListener('click', function() {
+	createOffer();
+	// popupModal.toggle();
+})
 
 let peerConn;
+let stream;
 
 // STUN and TRUN servers
 var servers= {
@@ -385,43 +425,101 @@ var servers= {
 	]
 }
 
-play.addEventListener('click', function() {
-	createOffer();
-})
-pause.addEventListener('click', function() {
-	video.srcObject = null;
-})
 
+// Local Client --------------------------------------------------------------
 async function createOffer(){
 	peerConn = new RTCPeerConnection(servers);
 	
-	const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
-	for (const track of stream.getTracks()) {
-		peerConn.addTrack(track, stream);
-	}
-	video.srcObject = stream;
-	
-	
+	stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
+    stream.getTracks().forEach(function(track){
+        peerConn.addTrack(track, stream);
+    });
+
+    peerConn.ontrack = async function(e) {
+        popupModal.toggle();
+        video.autoplay = true;
+        video.srcObject = e.streams[0];
+        video.load();
+        
+        console.log('Video Stream: ', video.srcObject);
+    }
+    
 	let offer = await peerConn.createOffer();
-	await peerConn.setLocalDescription(offer);
-	
-	// then Send this offer
-	
-	console.log(offer);
-	
-	getICECandidate(peerConn);
+    // console.log('Offer: ', offer);
+
+	await peerConn.setLocalDescription(offer).then(function () {
+        console.log('Offer Set Local Description');
+        // Then Send this offer
+	    conn.send(JSON.stringify({type: 'offer', offer: offer}));
+    });
+
+    peerConn.onicecandidate = async function(e){
+		if(e.candidate){
+			// console.log('New ICE Candidate:', ice);
+			console.log('New ICE Candidate!');
+
+			// Send ice candidate to remote
+			await conn.send(JSON.stringify({type: 'ice', ice: e.candidate}));
+		}
+	};
+    
 }
 
-async function getICECandidate(peer){
-	peer.onicecandidate = async function(e){
+async function addAnswer(answer){
+    if(!peerConn.currentRemoteDescription){
+        peerConn.setRemoteDescription(answer).then(function () {
+            console.log('Answer Set Remote Description!');
+        });
+    }
+    
+}
+
+
+
+
+async function createAnswer(offer){
+    peerConn = new RTCPeerConnection(servers);
+
+    // stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
+    // stream.getTracks().forEach(function(track){
+    //     peerConn.addTrack(track, stream);
+    // });
+    
+    peerConn.ontrack = function(e) {
+        video.srcObject = e.streams[0];
+        
+        console.log('Video Stream: ', video.srcObject);
+    }
+
+    await peerConn.setRemoteDescription(offer).then(function (){
+        console.log('Offer Set Remote Description');
+    });
+    
+
+    let answer = await peerConn.createAnswer();
+    await peerConn.setLocalDescription(answer).then(function (){
+        console.log('Answer Set Local Description');
+        conn.send(JSON.stringify({type: 'answer', answer: answer}));
+    });
+
+    peerConn.onicecandidate = async function(e){
 		if(e.candidate){
-			let ice = await e.candidate;
-			console.log('New ICE Candidate:', ice)
-			// send ice candidate
+			// console.log('New ICE Candidate:', ice);
+			console.log('New ICE Candidate!');
+
+			// Send ice candidate
+			conn.send(JSON.stringify({type: 'ice', ice: e.candidate}));
 		}else{
-			console.log("Error: No ICE Candiate!");
+			// console.log("No ICE Candiate!");
 		}
 	};
 }
 
+
+$('#popupModal').on('hidden.bs.modal', function (e) {
+    console.log('Hidden');
+
+    conn.send(JSON.stringify({camera: false}));
+    
+})
 </script>
