@@ -359,6 +359,7 @@ body{margin-top:20px;}
 
 
 <script type="text/javascript" >
+// Logout Pressed
 document.getElementById('logout').addEventListener("click", function(){
 	// Navigate to Home Page
 	window.location.replace("<?= base_url('logout') ?>");
