@@ -274,7 +274,7 @@ function ajaxRequest(url, data){
 				showErrorModal('Register', response.replace('(Error:Register)',''));
 				
 			}else if(response.includes('(Success:)')){
-				// Navigate to Home Page
+				// Navigate to Chat Page
 				window.location.replace("<?= base_url('chat') ?>");
 			}
 		}
