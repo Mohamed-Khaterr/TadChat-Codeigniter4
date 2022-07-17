@@ -119,8 +119,6 @@
 				  id="registerCheck"
 				  
 				  aria-describedby="registerCheckHelpText"
-				  
-				  required
 				/>
 				<label class="form-check-label" for="registerCheck">
 				  I have read and agree to the terms
@@ -205,6 +203,7 @@ let registerLastName = document.getElementById('registerLastName');
 let registerEmail = document.getElementById('registerEmail');
 let registerPassword = document.getElementById('registerPassword');
 let registerRepeatPassword = document.getElementById('registerRepeatPassword');
+let registerCheck = document.getElementById('registerCheck');
 
 // Register Pressed
 document.getElementById('registerBtn').addEventListener('click', function(){
@@ -225,6 +224,9 @@ document.getElementById('registerBtn').addEventListener('click', function(){
 		
 	}else if(registerRepeatPassword.value !== registerPassword.value){
 		showErrorModal('Register', 'Password dose not match with Repeat paswword');
+		
+	}else if(registerCheck.checked == false){
+		showErrorModal('Register', 'You can not Register without agree to the terms');
 		
 	}else{
 		// No Errors
