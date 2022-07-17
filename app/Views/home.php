@@ -7,6 +7,9 @@
 <div style='text-align: center;'>
 	<h3>Video</h3>
 	<video id='video' width="320" height="240" autoplay ></video>
+
+	<h3>Remote</h3>
+	<video id='remote' width="320" height="240" autoplay ></video>
 <div>
 
 <div id='buttons'>
@@ -20,6 +23,7 @@
 let play = document.getElementById('play');
 let pause = document.getElementById('pause');
 let video = document.getElementById('video');
+let remote = document.getElementById('remote');
 
 let peerConn;
 
@@ -83,6 +87,12 @@ async function createOffer(){
 	// then Send this offer
 	
 	console.log(offer);
+
+    peerConn.ontrack = function(e) {
+        remote.srcObject = e.streams[0];
+    }
+
+    
 	
 	getICECandidate(peerConn);
 }
@@ -96,6 +106,16 @@ async function getICECandidate(peer){
 			console.log("Error: No ICE Candiate!");
 		}
 	};
+}
+
+
+async function createAnswer(offer){
+
+
+    await peerConn.setRemoteDescription(offer);
+
+    let answer = await peerConn.createAnswer();
+    await peerConn.setLocalDescription(answer);
 }
 
 </script>

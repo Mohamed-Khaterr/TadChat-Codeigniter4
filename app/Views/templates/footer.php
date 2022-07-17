@@ -1,6 +1,6 @@
 
 <?php $uri = service('uri'); if($uri->getSegment(1) == 'login' || $uri->getSegment(1) == 'Login' || $uri->getSegment(1) == ''): ?>
-	<footer class="bg-dark text-center text-white" style='position: fixed; bottom: 0; width: 100%;'>
+	<footer class="bg-dark text-center text-white myFooter">
 	  <!-- Grid container -->
 	  <div class="container p-4 pb-0">
 		<!-- Section: Social media -->
@@ -8,17 +8,17 @@
 
 		  <!-- Google -->
 		  <a class="btn btn-outline-light btn-floating m-1" href="mohamed.khateerr@gmail.com" role="button"
-			><i class="fab fa-google"></i
+          target="_blank"><i class="fab fa-google"></i
 		  ></a>
 
 		  <!-- Linkedin -->
 		  <a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/in/mohamed-khaterr/" role="button"
-			><i class="fab fa-linkedin-in"></i
+          target="_blank"><i class="fab fa-linkedin-in"></i
 		  ></a>
 
 		  <!-- Github -->
 		  <a class="btn btn-outline-light btn-floating m-1" href="https://github.com/Mohamed-Khaterr" role="button"
-			><i class="fab fa-github"></i
+          target="_blank"><i class="fab fa-github"></i
 		  ></a>
 		</section>
 		<!-- Section: Social media -->
