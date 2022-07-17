@@ -8,19 +8,14 @@ use Ratchet\ConnectionInterface;
 
 
 class WebSocket implements MessageComponentInterface {
-    protected $clients;
-	protected $users = array();
-	
-    public function __construct() {
-        $this->clients = new \SplObjectStorage;
-    }
+    protected $clients = array();
 
     public function onOpen(ConnectionInterface $conn) {
-        $this->clients->attach($conn);
-		$this->users[$conn->resourceId] = $conn;
+		$this->clients[$conn->resourceId] = $conn;
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
+		
         foreach ($this->clients as $client) {
             if ($from != $client) {
                 $client->send($msg);
@@ -29,7 +24,6 @@ class WebSocket implements MessageComponentInterface {
     }
 
     public function onClose(ConnectionInterface $conn) {
-        $this->clients->detach($conn);
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
