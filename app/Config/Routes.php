@@ -17,7 +17,7 @@ if (is_file(SYSTEMPATH . 'Config/Routes.php')) {
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
+$routes->setDefaultController('Login');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -38,9 +38,10 @@ $routes->set404Override();
 $routes->add('server/index', 'Server::index');
 
 
-$routes->add('/', 'Login::index');
-$routes->add('/Login', 'Login::index');
-$routes->add('/login', 'Login::index');
+$routes->add('/', 'Login::index', ['filter' => 'noauth']);
+$routes->add('/Login', 'Login::index', ['filter' => 'noauth']);
+$routes->add('/login', 'Login::index', ['filter' => 'noauth']);
+$routes->add('logout', 'Logout::index');
 
 
 $routes->post('handleSginin', 'Login::handleSginin');
@@ -49,7 +50,7 @@ $routes->post('handleRegister', 'Login::handleRegister');
 $routes->add('home', 'Home::index');
 
 
-$routes->add('chat', 'Chat::index');
+$routes->add('chat', 'Chat::index', ['filter' => 'auth']);
 
 
 /*

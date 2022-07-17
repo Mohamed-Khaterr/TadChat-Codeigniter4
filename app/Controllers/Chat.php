@@ -7,7 +7,11 @@ class Chat extends BaseController {
 	
 	
     public function index(){
-		$this->showView('chatView');
+		$data = [
+			'user_id' => $this->session->get('id'),
+		];
+		
+		$this->showView('chatView', $data);
     }
 	
 }

@@ -275,7 +275,7 @@ function ajaxRequest(url, data){
 				
 			}else if(response.includes('(Success:)')){
 				// Navigate to Home Page
-				window.location.replace("<?= base_url('home') ?>");
+				window.location.replace("<?= base_url('chat') ?>");
 			}
 		}
 	});

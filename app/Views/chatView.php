@@ -360,7 +360,7 @@ body{margin-top:20px;}
 
 <script type="text/javascript" >
 // WebSocket
-const conn = new WebSocket('ws://192.168.1.6:8080/?');
+const conn = new WebSocket('ws://192.168.1.6:8080?user_id="<?= $user_id ?>"');
 
 conn.onopen = function(e){
 	console.log('Connection Established!');
