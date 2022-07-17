@@ -1,17 +1,45 @@
 <?php
 
 namespace App\Libraries;
-// use CodeIgniter\Controller;
 
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
+use \App\Models\ConnectionModel;
+use \App\Models\UsersModel;
+
 
 class WebSocket implements MessageComponentInterface {
     protected $clients = array();
-
+	protected $userModel;
+	protected $connModel;
+	
+	function __construct() {
+		$this->userModel = new UsersModel();
+		$this->connModel = new ConnectionModel();
+    }
+	
     public function onOpen(ConnectionInterface $conn) {
 		$this->clients[$conn->resourceId] = $conn;
+		
+		$queryString = $conn->httpRequest->getUri()->getQuery();
+        parse_str($queryString, $query);
+		
+		if(!empty($query['user_id'])){
+			$user = $this->userModel->where('id', $query['user_id'])->first();
+		
+			$newConn = [
+				'conn_resource_id' => $conn->resourceId,
+				'user_id' => $user['id'],
+				'user_firstName' => $user['firstName'],
+				'user_lastName' => $user['lastName'],
+			];
+			
+			// Add Connected user to Connection tabel
+			$this->connModel->insert($newConn);
+		}
+		
+		
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
@@ -24,11 +52,15 @@ class WebSocket implements MessageComponentInterface {
     }
 
     public function onClose(ConnectionInterface $conn) {
+		// Delete disconnected user from Connection Table
+		$this->connModel->where('conn_resource_id', $conn->resourceId)->delete();
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
 		file_put_contents("webSocketErrors.txt", "An error has occurred: {$e->getMessage()}\n");
 		
+		// Delete disconnected user from Connection Table
+		$this->connModel->where('conn_resource_id', $conn->resourceId)->delete();
 		
         $conn->close();
     }

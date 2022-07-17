@@ -368,7 +368,7 @@ document.getElementById('logout').addEventListener("click", function(){
 
 <script type="text/javascript" >
 // WebSocket
-const conn = new WebSocket('ws://192.168.1.6:8080?user_id="<?= $user_id ?>"');
+const conn = new WebSocket('ws://192.168.1.6:8080?user_id=<?= $user_id ?>');
 
 conn.onopen = function(e){
 	console.log('Connection Established!');
@@ -380,7 +380,6 @@ conn.onmessage = function(e) {
 
 conn.onclose = function(e) {
 	console.log('Connection is Closed!');
-	console.log('Reason: ', e.reason);
 };
 
 conn.onerror = function(error) {
