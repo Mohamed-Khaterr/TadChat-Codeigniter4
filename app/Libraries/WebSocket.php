@@ -33,10 +33,27 @@ class WebSocket implements MessageComponentInterface {
 				'user_id' => $user['id'],
 				'user_firstName' => $user['firstName'],
 				'user_lastName' => $user['lastName'],
+				'gender' => 'Male'
 			];
 			
 			// Add Connected user to Connection tabel
 			$this->connModel->insert($newConn);
+			
+			
+			file_put_contents("webSocketErrors.txt", json_encode($this->connModel->findAll()));
+			
+			$onlineUser = [
+				'online' => [
+					'resource_id' => $conn->resourceId,
+					'firstName' => $user['firstName'],
+					'lastName' => $user['lastName'],
+					'gender' => 'male',
+				]
+			];
+			
+			foreach ($this->clients as $client) {
+				$client->send(json_encode(['online' => $this->connModel->findAll()]));
+			}
 		}
 		
 		
@@ -52,6 +69,17 @@ class WebSocket implements MessageComponentInterface {
     }
 
     public function onClose(ConnectionInterface $conn) {
+		$offlineUser = [
+			'offline' => [
+				'resource_id' => $conn->resourceId,
+			]
+		];
+		
+		foreach ($this->clients as $client) {
+			$client->send(json_encode($offlineUser));
+		}
+		
+		
 		// Delete disconnected user from Connection Table
 		$this->connModel->where('conn_resource_id', $conn->resourceId)->delete();
     }
