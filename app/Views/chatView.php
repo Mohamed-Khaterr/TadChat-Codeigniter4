@@ -1,6 +1,12 @@
 
 <style>
 
+@media only screen and (max-height: 750px) {
+    .chat-messages {
+        height: 500px;
+    }
+}
+
 ::-webkit-scrollbar{
 	width: 12px;
 	background-color: #F5F5F5;
@@ -115,8 +121,7 @@ body{margin-top:20px;}
 								<div class="text-muted small"><em>Online...</em></div>
 							</div>
 							<div>
-								<button id="callPhone" class="btn btn-primary btn-lg mr-1 px-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-phone feather-lg"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></button>
-								<button id="callVideo" class="btn btn-info btn-lg mr-1 px-3 d-none d-md-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video feather-lg"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg></button>
+                                <button id="callVideo1" class="btn btn-info btn-lg mr-1 px-3 d-none d-md-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video feather-lg"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg></button>
 								<button id="logout" type="button" class="btn btn-light border btn-lg px-3" width="24" height="24"><i class="fa fa-sign-out" aria-hidden="true"></i></button>
 							</div>
 						</div>
@@ -153,7 +158,7 @@ body{margin-top:20px;}
 
 					<div class="flex-grow-0 py-3 px-4 border-top">
 						<div class="input-group">
-                            <div class="myBtn"><button type="button" id="callPhone2" class="btn btn-primary">Call</button></div>
+                            <div class="myBtn"><button type="button" id="callVideo2" class="btn btn-primary">Call</button></div>
 							<input id="userMessage" type="text" class="form-control" placeholder="Type your message">
 							<button type="button" id="sendBtn" class="btn btn-primary">Send</button>
 						</div>
@@ -172,16 +177,20 @@ body{margin-top:20px;}
 
 <!-- Modal -->
 <div class="modal top fade" id="popupModal" tabindex="-1" aria-labelledby="popupModal" aria-hidden="true" data-mdb-backdrop="false" data-mdb-keyboard="true">
-	<div class="modal-dialog modal-sm  modal-dialog-centered">
+	<div class="modal-dialog modal-fullscreen  modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="errorTitle">Stream</h5>
 				<button id="modalClose" type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
 			</div>
 			
-			<div id="errorMessage" class="modal-body">
+			<div id="modalBody" class="modal-body">
 				<!-- BODY -->
-				<video id="videoStream" width="100%" height="100%" autoplay="true" poster="/img/loadingGIF2.gif"></video>
+                <div style="display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr; grid-area: overlap;">
+                    <video id="remoteVideoStream" width="100%" height="70%" autoplay="true" poster="https://i.pinimg.com/originals/49/23/29/492329d446c422b0483677d0318ab4fa.gif" style="grid-area: overlap; left: 0; position: fixed; border-radius: 30px;"></video>
+
+                    <video id="localVideoStream" width="300px" height="225px" autoplay="true" poster="<?= base_url('img/loading.gif') ?>" style="grid-area: overlap; left: 5px; position: fixed; border-radius: 30px;"></video>
+                </div>
 			</div>
 			
 			<div class="modal-footer">
@@ -198,6 +207,15 @@ body{margin-top:20px;}
 
 
 <script type="text/javascript" >
+<?php 
+    // iPhone
+    if(empty($user_id)){
+        $user_id = 5;
+        $firstName = 'iPhone';
+        $lastName = '6s';
+    } 
+?>
+
 // Logout Pressed
 document.getElementById('logout').addEventListener("click", function(){
 	// Navigate to Home Page
@@ -260,16 +278,16 @@ function showMyMessage(message){
 	// Show local Message in Chat chatMessages
 	let current = new Date();
 	
-	let html = '<div class="chat-message-right mb-4">		<div>			<img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">			<div class="text-muted small text-nowrap mt-2">'+ current.toLocaleTimeString().replace(/(.*)\D\d+/, '$1') +'</div>		</div>		<div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">			<div class="font-weight-bold mb-1">You</div>'+ message +'</div>	</div>';
+	let html = '<div class="chat-message-right mb-4"><div><img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40"><div class="text-muted small text-nowrap mt-2">'+ current.toLocaleTimeString().replace(/(.*)\D\d+/, '$1') +'</div></div><div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3"><div class="font-weight-bold mb-1">You</div>'+ message +'</div>	</div>';
 	
 	document.getElementById('chatMessages').innerHTML += html;
 }
 
-function showOtherMessage(message, userName){
+function showOtherMessage(message, user_firstName, user_lastName){
 	// Show remote Message in Chat chatMessages
 	let current = new Date();
 	
-	let html = '<div class="chat-message-left pb-4"><div><img src="https://bootdey.com/img/Content/avatar/avatar4.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40"><div class="text-muted small text-nowrap mt-2">'+ current.toLocaleTimeString().replace(/(.*)\D\d+/, '$1') +'</div></div><div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3"><div class="font-weight-bold mb-1">'+ userName +'</div>'+ message +'</div></div>';
+	let html = '<div class="chat-message-left pb-4"><div><img src="https://bootdey.com/img/Content/avatar/avatar4.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40"><div class="text-muted small text-nowrap mt-2">'+ current.toLocaleTimeString().replace(/(.*)\D\d+/, '$1') +'</div></div><div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3"><div class="font-weight-bold mb-1">'+ user_firstName + ' ' + user_lastName +'</div>'+ message +'</div></div>';
 	
 	document.getElementById('chatMessages').innerHTML += html;
 }
@@ -311,11 +329,12 @@ conn.onmessage = function(e) {
 
 		if(data.hasOwnProperty('isMessage')){
 			scrollChat();
-			showOtherMessage(data.body, data.firstName + " " + data.lastName);
+			showOtherMessage(data.body, data.firstName, data.lastName);
+
 		}else if(data.hasOwnProperty('online')){
 			let user = data.online;
-			// addOnlineUser(user);
 			user.forEach(addOnlineUser);
+
 		}else if(data.hasOwnProperty('offline')){
 			// Remove user from left list
 			if(document.getElementById(data.offline.resource_id))
@@ -342,10 +361,14 @@ conn.onmessage = function(e) {
 			
 
 		}else if(data.hasOwnProperty('camera')){
-            console.log(stream);
-            stream.getTracks().forEach(function(track) {
-                track.stop();
-            });
+            if(stream){
+                 stream.getTracks().forEach(function(track) {
+                    track.stop();
+                });
+                stream = null;
+            }
+            
+            popupModal.hide();
         }
 		
 	}
@@ -372,18 +395,23 @@ conn.onerror = function(error) {
 	WebRTC -----------------------------------------------------
 */
 
-let startVideoCall = document.getElementById('callPhone2');
-let startPhoneCall = document.getElementById('callVideo');
-let video = document.getElementById('videoStream');
-video.autoplay = true;
+let startVideoCall1 = document.getElementById('callVideo1');
+let startVideoCall2 = document.getElementById('callVideo2');
+let remoteVideo = document.getElementById('remoteVideoStream');
+let localVideo = document.getElementById('localVideoStream');
+remoteVideo.autoplay, localVideo.autoplay = true;
 
 
 const popupModal = new mdb.Modal(document.getElementById('popupModal'));
 
-startVideoCall.addEventListener('click', function() {
+startVideoCall1.addEventListener('click', function() {
 	createOffer();
-	// popupModal.toggle();
-})
+	popupModal.toggle();
+});
+startVideoCall2.addEventListener('click', function() {
+	createOffer();
+	popupModal.toggle();
+});
 
 let peerConn;
 let stream;
@@ -434,14 +462,11 @@ async function createOffer(){
     stream.getTracks().forEach(function(track){
         peerConn.addTrack(track, stream);
     });
+    
+    localVideo.srcObject = stream;
 
     peerConn.ontrack = async function(e) {
-        popupModal.toggle();
-        video.autoplay = true;
-        video.srcObject = e.streams[0];
-        video.load();
-        
-        console.log('Video Stream: ', video.srcObject);
+        remoteVideo.srcObject = e.streams[0];
     }
     
 	let offer = await peerConn.createOffer();
@@ -475,20 +500,19 @@ async function addAnswer(answer){
 }
 
 
-
-
 async function createAnswer(offer){
     peerConn = new RTCPeerConnection(servers);
 
-    // stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
-    // stream.getTracks().forEach(function(track){
-    //     peerConn.addTrack(track, stream);
-    // });
+    stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
+    stream.getTracks().forEach(function(track){
+        peerConn.addTrack(track, stream);
+    });
     
+    localVideo.srcObject = stream;
+
     peerConn.ontrack = function(e) {
-        video.srcObject = e.streams[0];
-        
-        console.log('Video Stream: ', video.srcObject);
+        remoteVideo.srcObject = e.streams[0];
+        console.log('Video Stream: ', remoteVideo.srcObject);
     }
 
     await peerConn.setRemoteDescription(offer).then(function (){
@@ -516,8 +540,16 @@ async function createAnswer(offer){
 }
 
 
+
+
 $('#popupModal').on('hidden.bs.modal', function (e) {
     console.log('Hidden');
+
+    if(peerConn){
+        peerConn.close();
+        peerConn = null;
+        console.log('Close WebRTC');
+    }
 
     conn.send(JSON.stringify({camera: false}));
     

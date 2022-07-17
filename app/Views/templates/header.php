@@ -61,4 +61,12 @@
                 position: unset;
             }
         }
+
+        @media only screen and (max-width: 990px) {
+            .callBtn1{
+                display: none;
+            }
+        }
+
+
     </style>
