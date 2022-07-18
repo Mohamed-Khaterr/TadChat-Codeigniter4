@@ -1,10 +1,15 @@
 # Tad Chat - chat app
 A Simple video/text chat app created with Codeigniter,  WebSocket, WebRTC
+## Table of contents
+* [Introduction](#introduction)
+* [Technologies](#technologies)
+* [Setup Project](#setup)
+* [Demo](#demo)
 
-## Introduction
+## Introduction <span id="introduction"></span>
 I created this app because I want to learn more about  WebSocket and WebRTC and how to implement them another reason is that I want to create an iOS app that is integrate with this web.
-
-##Technologies
+ 
+## Technologies <span id="technologies"></span>
 Project created with:
 - Codeigniter 4 (PHP 8.0.12)
 - WebSocket (Ratchet)
@@ -15,7 +20,7 @@ Project created with:
 
 A great resources that explain WebRTC and how it works [here](https://javascript.plainenglish.io/lets-build-a-video-chat-app-with-javascript-and-webrtc-de745072c38c "here") and [here](https://medium.com/dvt-engineering/introduction-to-webrtc-cad0c6900b8e "here")
 
-## Run Project
+## Setup Project <span id="setup"></span>
 if you want to try this project, I have added the database file so you can run without creating new database.
 
 - Download the project from [here](https://github.com/Mohamed-Khaterr/TadChat-Codeigniter4/archive/refs/heads/main.zip)
@@ -34,7 +39,7 @@ php index.php server index
 
 Congratulation! Now you can run and test the project, create an email or login with the emails in data. 
 
-## Demo
+## Demo <span id="demo"></span>
 <p align="center">
   <img src="./demo/demo.gif" width="700">
 </p>
