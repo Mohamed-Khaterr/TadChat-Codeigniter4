@@ -47,8 +47,6 @@ $routes->add('logout', 'Logout::index');
 $routes->post('handleSginin', 'Login::handleSginin');
 $routes->post('handleRegister', 'Login::handleRegister');
 
-$routes->add('home', 'Home::index');
-
 
 $routes->add('chat', 'Chat::index', ['filter' => 'auth']);
 
