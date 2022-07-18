@@ -36,6 +36,9 @@ Congratulation! Now you can run and test the project, create an email or login w
 
 ## Demo
 <p align="center">
+  <img src="./demo/demo.gif" width="700">
+</p>
+<p align="center">
   <img src="./demo/chat.JPG" width="350">
   <img src="./demo/video Call.JPG" width="350">
   <img src="./demo/Login.JPG" width="350">
