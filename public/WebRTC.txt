@@ -1,0 +1,50 @@
+WebRTC:
+
+Data Sending between two clients is Session Description Protocol (SDP) and ICE Candidates.
+
+- Session Description Protocol (SDP): is an object containing information about the session conncetion (Rome information) such as media type audio and video.
+
+SDP => Offer, Answer
+
+
+- ICE Candidates: is a public IP address and port that could be an address that receives data.
+
+
+- STUN, TUN Server => to get the Public IP of user
+
+So the work flow will be like Between point A and point B:
+- Point A create Offer then A.setLocalDescription(A.Offer)
+- when setLocalDescription is add this will fire onicecandidate so
+- Point A ask STUN/TRUN for Public IP
+- Point A send ICE Candidate to B
+- Point B add ice candidate of A
+- Point B set A.Offer as Remote Description 
+- Point B create Answer and set the answer as Local Discription
+- Point B ask STUN/TRUN for Public IP
+- Point B send ICE Candidate to A
+- Point B send Answer to A
+- Point A set Answer As Remote Description
+- Point A add ice candidate of B
+*** Make sure the peerConn.addTrack() and peerConn.ontrack() is under new RTCPeerConnection directly
+- Point A send Offer to B
+- Point B recive the Offer and make it his localDiscription 
+- Point B create Answer and send it to A
+- Conncetion is Started
+
+Code Will look like:
+1- let peerConn = RTCPeerConn();
+2- peerConn.addTrack();
+3- peerConn.ontrack();
+4- Create Offer
+make offer as local Discription
+5- Send Offer
+make offer as remote Discription
+6- Send ICE
+7- Create Answer
+make answer as local Discription
+8- Send Answer
+make answer as remote Discription
+9- Send ICE
+
+
+
