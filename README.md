@@ -27,6 +27,10 @@ if you want to try this project, I have added the database file so you can run w
 - Extract project in  `C:\XAMPP\htdocs\TadChat`
 - Go to `phpmyadmin` and create new data base with name: `tadchat`
 - Import `tadchat.sql` file
+- Open `websocket.js` file in `public/js` and add your ip address:
+```php
+const conn = new WebSocket('ws://<YOUR IP ADDRESS>:8080?user_id='+ current_user_id);
+```
 - Open the project root folder in terminal then write
 ```php
 php spark serve
