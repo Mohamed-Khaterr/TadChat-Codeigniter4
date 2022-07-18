@@ -25,6 +25,7 @@
     <!-- Start your project here-->
 	
 	<script src="js/jquery.js"></script>
+    <!-- <script src="jquery-3.6.0.min.js"></script> -->
 	
     <style>
         .login-and-register{
