@@ -4,15 +4,6 @@ A Simple video/text chat app created with Codeigniter,  WebSocket, WebRTC
 ## Introduction
 I created this app because I want to learn more about  WebSocket and WebRTC and how to implement them another reason is that I want to create an iOS app that is integrate with this web.
 
-## Demo
-<p align="center">
-  <img src="./demo/chat.JPG" width="350">
-  <img src="./demo/Login.JPG" width="350">
-  <img src="./demo/loginValidation.JPG" width="350">
-  <img src="./demo/register.JPG" width="350">
-  <img src="./demo/RegisterValidation.JPG" width="350">
-</p>
-
 ##Technologies
 Project created with:
 - Codeigniter 4 (PHP 8.0.12)
@@ -42,3 +33,17 @@ php index.php server index
 - Open your browser and navigate to [localhost:8080/Login](http://localhost:8080/Login)
 
 Congratulation! Now you can run and test the project, create an email or login with the emails in data. 
+
+## Demo
+<p align="center">
+  <img src="./demo/demo.gif" width="700">
+</p>
+<p align="center">
+  <img src="./demo/chat.JPG" width="350">
+  <img src="./demo/video Call.JPG" width="350">
+  <img src="./demo/Login.JPG" width="350">
+  <img src="./demo/loginValidation.JPG" width="350">
+  <img src="./demo/register.JPG" width="350">
+  <img src="./demo/RegisterValidation.JPG" width="350">
+</p>
+>>>>>>> 2d3998d8fe42a63db98ee0a967d0b037e0000b76
