@@ -44,14 +44,13 @@ php index.php server index
 Congratulation! Now you can run and test the project, create an email or login with the emails in data. 
 
 ## Demo <span id="demo"></span>
+- Video
 <p align="center">
   <img src="./demo/demo.gif" width="700">
 </p>
+
+- Image
 <p align="center">
-  <img src="./demo/chat.JPG" width="350">
-  <img src="./demo/video Call.JPG" width="350">
-  <img src="./demo/Login.JPG" width="350">
-  <img src="./demo/loginValidation.JPG" width="350">
-  <img src="./demo/register.JPG" width="350">
-  <img src="./demo/RegisterValidation.JPG" width="350">
+  <img src="./demo/First.jpg" width="">
+  <img src="./demo/SecondHigh.jpg" width="">
 </p>
