@@ -86,7 +86,7 @@ body{margin-top:20px;}
 <main class="content">
     <div class="container p-0">
 
-		<h1 class="h3 mb-3">Messages</h1>
+		<h1 class="h3 mb-3" style="margin-top: 30px;">Messages</h1>
 
 		<div class="card">
 			<div class="row g-0">
@@ -121,8 +121,8 @@ body{margin-top:20px;}
 								<div class="text-muted small"><em>Online...</em></div>
 							</div>
 							<div>
-                                <button id="callVideo1" class="btn btn-info btn-lg mr-1 px-3 d-none d-md-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video feather-lg"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg></button>
-								<button id="logout" type="button" class="btn btn-light border btn-lg px-3" width="24" height="24"><i class="fa fa-sign-out" aria-hidden="true"></i></button>
+                                <!-- <button id="callVideo1" class="btn btn-info btn-lg mr-1 px-3 d-none d-md-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video feather-lg"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg></button>
+								<button id="logout" type="button" class="btn btn-light border btn-lg px-3" width="24" height="24"><i class="fa fa-sign-out" aria-hidden="true"></i></button> -->
 							</div>
 						</div>
 					</div>
@@ -180,9 +180,9 @@ body{margin-top:20px;}
 
 					<div class="flex-grow-0 py-3 px-4 border-top">
 						<div class="input-group">
-                            <div class="myBtn"><button type="button" id="callVideo2" class="btn btn-primary">Call</button></div>
 							<input id="userMessage" type="text" class="form-control" placeholder="Type your message">
 							<button type="button" id="sendBtn" class="btn btn-primary">Send</button>
+                            <button type="button" id="callVideo" class="btn btn-primary" style="margin-left: 10px;">Video Call</button>
 						</div>
 					</div>
 
@@ -259,22 +259,10 @@ function scrollToBottomChat(){
 	}, 1000);
 }
 
-// Up Button Call Pressed
-document.getElementById('callVideo1').addEventListener('click', function() {
+// Video Call Pressed
+document.getElementById('callVideo').addEventListener('click', function() {
 	createOffer();
 	popupModal.toggle();
-});
-
-// Down Button Call Pressed
-document.getElementById('callVideo2').addEventListener('click', function() {
-	createOffer();
-	popupModal.toggle();
-});
-
-// Logout Pressed
-document.getElementById('logout').addEventListener("click", function(){
-	// Navigate to Home Page
-	window.location.replace("<?= base_url('logout') ?>");
 });
 
 
