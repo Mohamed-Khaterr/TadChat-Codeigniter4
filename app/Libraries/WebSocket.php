@@ -40,7 +40,7 @@ class WebSocket implements MessageComponentInterface {
 			$this->connModel->insert($newConn);
 			
 			
-			file_put_contents("webSocketErrors.txt", json_encode($this->connModel->findAll()));
+			// file_put_contents("webSocketErrors.txt", json_encode($this->connModel->findAll()));
 			
 			$onlineUser = [
 				'online' => [
