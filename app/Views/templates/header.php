@@ -133,3 +133,4 @@ document.getElementById('logoutBtn').addEventListener("click", function(){
 </script>
 
 <?php endif; ?>
+    </style>

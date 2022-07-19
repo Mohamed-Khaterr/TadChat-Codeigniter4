@@ -85,7 +85,7 @@ body{margin-top:20px;}
 
 <main class="content">
     <div class="container p-0">
-
+        
 		<h1 class="h3 mb-3" style="margin-top: 30px;">Messages</h1>
 
 		<div class="card">
@@ -259,12 +259,11 @@ function scrollToBottomChat(){
 	}, 1000);
 }
 
-// Video Call Pressed
+// Up Button Call Pressed
 document.getElementById('callVideo').addEventListener('click', function() {
 	createOffer();
 	popupModal.toggle();
 });
-
 
 // Show Message in Chat
 function addMessageToChatView(message, user_firstName=null, user_lastName=null){

@@ -19,15 +19,14 @@ Project created with:
 
 A great resources that explain WebRTC and how it works [here](https://javascript.plainenglish.io/lets-build-a-video-chat-app-with-javascript-and-webrtc-de745072c38c "here") and [here](https://medium.com/dvt-engineering/introduction-to-webrtc-cad0c6900b8e "here")
 
+
 ## Demo <span id="demo"></span>
-- Video
+
 <p align="center">
   <img src="./demo/demo.gif" width="700">
 </p>
 
-- Image
 <p align="center">
   <img src="./demo/First.jpg" width="">
   <img src="./demo/SecondHigh.jpg" width="">
 </p>
->>>>>>> 2d3998d8fe42a63db98ee0a967d0b037e0000b76
