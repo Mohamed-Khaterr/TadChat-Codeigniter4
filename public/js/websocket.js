@@ -5,6 +5,7 @@
 
 var message = document.getElementById('userMessage');
 
+
 const conn = new WebSocket('ws://192.168.1.6:8080?user_id='+ current_user_id);
 
 conn.onopen = function(e){

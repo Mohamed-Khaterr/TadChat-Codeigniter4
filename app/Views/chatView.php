@@ -85,7 +85,7 @@ body{margin-top:20px;}
 
 <main class="content">
     <div class="container p-0">
-        
+    
 		<h1 class="h3 mb-3" style="margin-top: 30px;">Messages</h1>
 
 		<div class="card">
