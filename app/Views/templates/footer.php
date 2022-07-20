@@ -7,7 +7,7 @@
 		<section class="mb-4">
 
 		  <!-- Google -->
-		  <a class="btn btn-outline-light btn-floating m-1" href="mohamed.khateerr@gmail.com" role="button"
+		  <a class="btn btn-outline-light btn-floating m-1" href="mailto:mohamed.khateerr@gmail.com" role="button"
           target="_blank"><i class="fab fa-google"></i
 		  ></a>
 
@@ -37,6 +37,6 @@
 
 	<!-- MDB -->
     <script type="text/javascript" src="<?= base_url('js/mdb.min.js') ?>"></script>
-    
+
   </body>
 </html>
