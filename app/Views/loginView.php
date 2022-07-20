@@ -196,5 +196,5 @@ function ajaxRequest(url, data){
 			}
 		}
 	});
-}\
+}
 </script>
