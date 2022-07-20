@@ -160,8 +160,8 @@
 
 
 <script>
-    const ajaxSignin = "<?= base_url('handleSginin') ?>";
-    const ajaxRegister = "<?= base_url('handleRegister') ?>";
+    const ajaxSignin = "<?= base_url('ajax/handleSginin') ?>";
+    const ajaxRegister = "<?= base_url('ajax/handleRegister') ?>";
     const chatLocation = "<?= site_url('chat') ?>";
 </script>
 

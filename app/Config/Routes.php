@@ -44,10 +44,14 @@ $routes->add('/login', 'Login::index', ['filter' => 'noauth']);
 $routes->add('logout', 'Logout::index');
 
 
-$routes->post('handleSginin', 'Login::handleSginin');
-$routes->post('handleRegister', 'Login::handleRegister');
+// AJAX Requests
+$routes->group('ajax', static function ($routes) {
+    $routes->post('handleSginin', 'Login::handleSginin');
+    $routes->post('handleRegister', 'Login::handleRegister');
+});
 
 
+// Chat Page
 $routes->add('chat', 'Chat::index', ['filter' => 'auth']);
 
 
