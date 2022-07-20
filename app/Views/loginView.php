@@ -157,115 +157,30 @@
   </div>
 </div>
 
+
+
+<script>
+    const ajaxSignin = "<?= base_url('ajax/handleSginin') ?>";
+    const ajaxRegister = "<?= base_url('ajax/handleRegister') ?>";
+    const chatLocation = "<?= site_url('chat') ?>";
+</script>
+
 <!-- MDB -->
-<script type="text/javascript" src="js/mdb.min.js"></script>
+<script type="text/javascript" src="<?= base_url('js/mdb.min.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('js/login.js') ?>"></script>
 
 <script type="text/javascript" >
-
-$(document).ready(function(){
-	// prevent form submit from reloading page
-	$('form').submit(function(e){
-		e.preventDefault();
-	});
-});
-
-
-// Login
-let loginEmail = document.getElementById('loginEmail');
-let loginPassword = document.getElementById('loginPassword');
-
-// Login Pressed
-document.getElementById('loginBtn').addEventListener('click', function(){
-	if(!loginEmail.value){
-		showErrorModal('Login', 'Please add email');
-		
-	}else if(!loginPassword.value){
-		showErrorModal('Login', 'Please add password');
-		
-	}else{
-		// No Errors
-		let data = {
-			"<?= csrf_token() ?>": "<?= csrf_hash() ?>",
-			email: loginEmail.value,
-			password: loginPassword.value,
-		};
-		
-		ajaxRequest("<?= base_url('/handleSginin') ?>", data);
-	}
-});
-
-
-
-
-// Register
-let registerFirstName = document.getElementById('registerFirstName');
-let registerLastName = document.getElementById('registerLastName');
-let registerEmail = document.getElementById('registerEmail');
-let registerPassword = document.getElementById('registerPassword');
-let registerRepeatPassword = document.getElementById('registerRepeatPassword');
-let registerCheck = document.getElementById('registerCheck');
-
-// Register Pressed
-document.getElementById('registerBtn').addEventListener('click', function(){
-	if(!registerFirstName.value){
-		showErrorModal('Register', 'Please add your first name');
-		
-	}else if(!registerLastName.value){
-		showErrorModal('Register', 'Please add your last name');
-		
-	}else if(!registerEmail.value){
-		showErrorModal('Register', 'Please add your email');
-		
-	}else if(!registerPassword.value){
-		showErrorModal('Register', 'Please add your password');
-		
-	}else if(!registerRepeatPassword.value){
-		showErrorModal('Register', 'Please repeate the password');
-		
-	}else if(registerRepeatPassword.value !== registerPassword.value){
-		showErrorModal('Register', 'Password dose not match with Repeat paswword');
-		
-	}else if(registerCheck.checked == false){
-		showErrorModal('Register', 'You can not Register without agree to the terms');
-		
-	}else{
-		// No Errors
-		let data = {
-			"<?= csrf_token() ?>": "<?= csrf_hash() ?>",
-			firstName: registerFirstName.value,
-			lastName: registerLastName.value,
-			email: registerEmail.value,
-			password: registerRepeatPassword.value,
-		};
-		
-		ajaxRequest("<?= base_url('handleRegister') ?>", data);
-	}
-});
-
-
-
-
-
-
-function showErrorModal(title, message){
-	const popupModal = new mdb.Modal(document.getElementById('popupModal'));
-	
-	// Error Elements
-	let errorTitle = document.getElementById('errorTitle');
-	let errorMessage = document.getElementById('errorMessage');
-	
-	errorTitle.innerHTML = title;
-	errorMessage.innerHTML = message;
-	popupModal.toggle();
-}
-
-
+// This function must be here so AJAX can work
 function ajaxRequest(url, data){
+    let dataWithTokent = {"<?= csrf_token() ?>": "<?= csrf_hash() ?>"};
+
 	$.ajax({
 		method: 'POST',
 		url: url,
 		headers: {'X-Requested-With': 'XMLHttpRequest'},
-		data: data,
+        // Add user Data with tokent data
+		data: Object.assign(dataWithTokent, data),
+
 		success: function (response){
 			console.log(response);
 			if(response.includes('(Error:Login)')){
@@ -277,10 +192,9 @@ function ajaxRequest(url, data){
 				
 			}else if(response.includes('(Success:)')){
 				// Navigate to Chat Page
-				window.location.replace("<?= base_url('chat') ?>");
+				window.location.replace(chatLocation);
 			}
 		}
 	});
 }
-
 </script>
