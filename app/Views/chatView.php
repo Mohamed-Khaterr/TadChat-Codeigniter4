@@ -211,7 +211,7 @@ body{margin-top:20px;}
                 <div style="display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr; grid-area: overlap;">
                     <video id="remoteVideoStream" width="100%" height="70%" autoplay="true" poster="https://i.pinimg.com/originals/49/23/29/492329d446c422b0483677d0318ab4fa.gif" style="grid-area: overlap; left: 0; position: fixed; border-radius: 30px;"></video>
 
-                    <video id="localVideoStream" width="300px" height="225px" autoplay="true" poster="<?= base_url('img/loading.gif') ?>" style="grid-area: overlap; left: 15px; position: fixed; border-radius: 30px;"></video>
+                    <video id="localVideoStream" width="300px" height="225px" autoplay="true" poster="https://i.pinimg.com/originals/49/23/29/492329d446c422b0483677d0318ab4fa.gif" style="grid-area: overlap; left: 15px; position: fixed; border-radius: 30px;"></video>
                 </div>
 			</div>
 			
@@ -223,7 +223,7 @@ body{margin-top:20px;}
 </div>
 
 <!-- MDB -->
-<script type="text/javascript" src="js/mdb.min.js"></script>
+<script type="text/javascript" src="<?= base_url('js/mdb.min.js') ?>"></script>
 
 <script type="text/javascript" >
 <?php 
@@ -329,5 +329,10 @@ document.getElementById('sendBtn').addEventListener("click", function(){
 });
 </script>
 
+
+<script>
+    // This constant that websocket use when inital
+    const ip = '<?= IP ?>'
+</script>
 <script src="/js/websocket.js"></script>
 <script src="/js/webrtc.js"></script>

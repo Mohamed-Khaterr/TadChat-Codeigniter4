@@ -7,7 +7,7 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
         <title>Material Design for Bootstrap</title>
         <!-- MDB icon -->
-        <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="<?= base_url('img/mdb-favicon.ico') ?>" type="image/x-icon" />
         <!-- Font Awesome -->
         <link
         rel="stylesheet"
@@ -19,13 +19,12 @@
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
         />
         <!-- MDB -->
-        <link rel="stylesheet" href="css/mdb.min.css" />
+        <link rel="stylesheet" href="<?= base_url('css/mdb.min.css') ?>" />
     </head>
     <body>
     <!-- Start your project here-->
 	
-	<script src="js/jquery.js"></script>
-    <!-- <script src="jquery-3.6.0.min.js"></script> -->
+	<script src="<?= base_url('js/jquery.js') ?>"></script>
 	
     <style>
         .login-and-register{
@@ -106,7 +105,7 @@
       <!-- Left links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="#"><?= $firstName ?> <?= $lastName ?></a>
+          <a class="nav-link" href=""><?= $firstName ?> <?= $lastName ?></a>
         </li>
       </ul>
       <!-- Left links -->
@@ -128,7 +127,7 @@
 // Logout Pressed
 document.getElementById('logoutBtn').addEventListener("click", function(){
 	// Navigate to Home Page
-	window.location.replace("<?= base_url('logout') ?>");
+	window.location.replace("<?= site_url('logout') ?>");
 });
 </script>
 

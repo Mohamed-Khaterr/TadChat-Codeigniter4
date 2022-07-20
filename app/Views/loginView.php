@@ -190,7 +190,7 @@ document.getElementById('loginBtn').addEventListener('click', function(){
 			password: loginPassword.value,
 		};
 		
-		ajaxRequest("<?= base_url('/handleSginin') ?>", data);
+		ajaxRequest("<?= site_url('/handleSginin') ?>", data);
 	}
 });
 
@@ -238,7 +238,7 @@ document.getElementById('registerBtn').addEventListener('click', function(){
 			password: registerRepeatPassword.value,
 		};
 		
-		ajaxRequest("<?= base_url('handleRegister') ?>", data);
+		ajaxRequest("<?= site_url('handleRegister') ?>", data);
 	}
 });
 
@@ -277,7 +277,7 @@ function ajaxRequest(url, data){
 				
 			}else if(response.includes('(Success:)')){
 				// Navigate to Chat Page
-				window.location.replace("<?= base_url('chat') ?>");
+				window.location.replace("<?= site_url('chat') ?>");
 			}
 		}
 	});
