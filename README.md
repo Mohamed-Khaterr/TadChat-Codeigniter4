@@ -8,7 +8,7 @@ A Simple video/text chat app created with Codeigniter,  WebSocket, WebRTC and cr
 * [Demo](#demo)
 
 ## Introduction <span id="introduction"></span>
-I created this app because I want to learn more about  WebSocket and WebRTC and how to implement them. Another reason is that I want to create an iOS app that is integrate with this web so i created api that can check user validation and registering users.
+I created this app because I want to learn more about  WebSocket and WebRTC and how to implement them. Another reason is that I want to create an iOS app that is integrate with this web so i created api to make connection between iOS and web.
  
 ## Technologies <span id="technologies"></span>
 Project created with:
