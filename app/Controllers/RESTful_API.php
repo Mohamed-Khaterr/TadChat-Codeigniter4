@@ -64,6 +64,7 @@ class RESTful_API extends BaseController {
         }
 
         $responseData['body'] = [
+            'id' => (int)$user['id'],
             'firstName' => $user['firstName'],
             'lastName' => $user['lastName'],
             'email' => $user['email'],
