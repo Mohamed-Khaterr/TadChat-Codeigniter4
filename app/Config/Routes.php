@@ -21,6 +21,7 @@ $routes->setDefaultController('Login');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
+$routes->setAutoRoute(false);
 // The Auto Routing (Legacy) is very dangerous. It is easy to create vulnerable apps
 // where controller filters or CSRF protection are bypassed.
 // If you don't want to define all routes, please use the Auto Routing (Improved).
@@ -37,22 +38,36 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->add('server/index', 'Server::index');
 
+// Login Controller
+$routes->group('', ['filter' => 'noauth'], static function ($routes) {
+    $routes->get('/', 'Login::index');
+    $routes->get('/Login', 'Login::index');
+    $routes->get('/login', 'Login::index');
+});
 
-$routes->add('/', 'Login::index', ['filter' => 'noauth']);
-$routes->add('/Login', 'Login::index', ['filter' => 'noauth']);
-$routes->add('/login', 'Login::index', ['filter' => 'noauth']);
-$routes->add('logout', 'Logout::index');
+// logout Controller
+$routes->get('logout', 'Logout::index');
 
 
-// AJAX Requests
+// Chat Controller
+$routes->group('', ['filter' => 'auth'], static function ($routes) {
+    $routes->get('chat', 'Chat::index');
+    $routes->get('Chat', 'Chat::index');
+});
+
+
+// Login Controller for AJAX Requests methodes:: handleSginin, handleRegister
 $routes->group('ajax', static function ($routes) {
     $routes->post('handleSginin', 'Login::handleSginin');
     $routes->post('handleRegister', 'Login::handleRegister');
 });
 
 
-// Chat Page
-$routes->add('chat', 'Chat::index', ['filter' => 'auth']);
+// api - RESTful_API Controller methodes:: Login , Register
+$routes->group('api', static function ($routes) {
+    $routes->add('userLogin', 'RESTful_API::userLogin');
+    $routes->add('userRegister', 'RESTful_API::userRegister');
+});
 
 
 /*
