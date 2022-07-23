@@ -63,10 +63,10 @@ class Login extends BaseController {
 			
 			if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 				
-				$user = new UsersModel();
+				$userModel = new UsersModel();
 				
 				// Check user in Database
-				if(empty($user->where('email', $email)->first())){
+				if(empty($userModel->where('email', $email)->first())){
 					$newUser = [
 						'firstName' => $fname,
 						'lastName' => $lname,
@@ -75,13 +75,13 @@ class Login extends BaseController {
 					];
 					
 					// Save new user to Database
-					$user->insert($newUser);
+					$userModel->insert($newUser);
 					
 					// Delete password from array
 					unset($newUser['password']);
 					
 					// new Element to Sessions
-					$newUser['id'] = $user->getInsertID();
+					$newUser['id'] = $userModel->getInsertID();
 					$newUser['isLoggedIn'] = true;
 					
 					// Set Sessions
