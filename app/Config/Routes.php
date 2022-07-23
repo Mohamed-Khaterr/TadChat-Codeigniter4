@@ -65,8 +65,8 @@ $routes->group('ajax', static function ($routes) {
 
 // api - RESTful_API Controller methodes:: Login , Register
 $routes->group('api', static function ($routes) {
-    $routes->get('userLogin', 'RESTful_API::userLogin');
-    $routes->get('userRegister', 'RESTful_API::userRegister');
+    $routes->add('userLogin', 'RESTful_API::userLogin');
+    $routes->add('userRegister', 'RESTful_API::userRegister');
 });
 
 

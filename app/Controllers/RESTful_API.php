@@ -17,7 +17,7 @@ class RESTful_API extends BaseController {
         if(empty($email) || empty($password)){
             if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
                 $responseData['error'] = [
-                    'code' => 401,
+                    'code' => 400,
                     'description' => 'the email or password are empty',
                 ];
     
@@ -29,7 +29,7 @@ class RESTful_API extends BaseController {
         
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             $responseData['error'] = [
-                'code' => 404,
+                'code' => 501,
                 'description' => 'Email not Valid',
             ];
 
@@ -42,7 +42,7 @@ class RESTful_API extends BaseController {
         
         if(empty($user)){
             $responseData['error'] = [
-                'code' => 403,
+                'code' => 510,
                 'description' => 'The email not found',
             ];
 
@@ -54,7 +54,7 @@ class RESTful_API extends BaseController {
 
         if(!password_verify($password, $user['password'])){
             $responseData['error'] = [
-                'code' => 405,
+                'code' => 513,
                 'description' => 'The password is not correct',
             ];
 
@@ -71,6 +71,7 @@ class RESTful_API extends BaseController {
         ];
 
         return $this->response
+                    ->setStatusCode(200)
                     ->setContentType('application/json')
                     ->setBody(json_encode($responseData));
     }
@@ -86,7 +87,7 @@ class RESTful_API extends BaseController {
 
         if(empty($firstName) || empty($lastName) || empty($email) || empty($password)){
             $responseData['error'] = [
-                'code' => 405,
+                'code' => 400,
                 'description' => 'There is empty field',
             ];
 
@@ -98,7 +99,7 @@ class RESTful_API extends BaseController {
 
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             $responseData['error'] = [
-                'code' => 404,
+                'code' => 501,
                 'description' => 'Email not Valid',
             ];
 
@@ -111,7 +112,7 @@ class RESTful_API extends BaseController {
 
         if($userModel->where('email', $email)->first()){
             $responseData['error'] = [
-                'code' => 404,
+                'code' => 403,
                 'description' => 'The email is already exists',
             ];
 
