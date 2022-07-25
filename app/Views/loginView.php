@@ -173,8 +173,6 @@
 // This function must be here so AJAX can work
 function ajaxRequest(url, data){
 
-    console.log({'<?= csrf_header() ?>': '<?= csrf_hash() ?>'});
-
 	$.ajax({
 		method: 'POST',
 
