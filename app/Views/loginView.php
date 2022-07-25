@@ -172,28 +172,30 @@
 <script type="text/javascript" >
 // This function must be here so AJAX can work
 function ajaxRequest(url, data){
-    let dataWithTokent = {"<?= csrf_token() ?>": "<?= csrf_hash() ?>"};
 
 	$.ajax({
 		method: 'POST',
+
+        // URL for login:: localhost:8080/ajax/handleSginin
+        // URL for register:: localhost:8080/ajax/handleRegister
 		url: url,
-		headers: {'X-Requested-With': 'XMLHttpRequest'},
-        // Add user Data with tokent data
-		data: Object.assign(dataWithTokent, data),
+
+        // Add csrf to header so that the server accept the request
+		headers: {'<?= csrf_header() ?>': '<?= csrf_hash() ?>'},
+
+        // User Data
+		data: data,
 
 		success: function (response){
-			console.log(response);
-			if(response.includes('(Error:Login)')){
-				showErrorModal('Login', response.replace('(Error:Login)',''));
-				
-				
-			}else if(response.includes('(Error:Register)')){
-				showErrorModal('Register', response.replace('(Error:Register)',''));
-				
-			}else if(response.includes('(Success:)')){
-				// Navigate to Chat Page
-				window.location.replace(chatLocation);
-			}
+            if(!response.error){
+                // Navigate to Chat Page
+                window.location.replace(chatLocation);
+
+            }else if(response.method == 'login'){
+                showErrorModal('Login', response.error);
+            }else if(response.method == 'register'){
+                showErrorModal('Register', response.error);
+            }
 		}
 	});
 }

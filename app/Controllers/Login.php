@@ -9,8 +9,19 @@ class Login extends BaseController {
     public function index(){
 		$this->showView('loginView');
     }
-	
+
+
+
+    /*
+    |--------------------------------------------------------------------
+    |  Handling AJAX Request
+    |--------------------------------------------------------------------
+    */
+
+    // Handle Singin In ::Check User
 	public function handleSginin(){
+        $response = ['method' => 'login', 'error' => ''];
+
 		// Check for AJAX request.
 		if ($this->request->isAJAX()) {
 			$email = htmlspecialchars($this->request->getPost('email'));
@@ -35,25 +46,34 @@ class Login extends BaseController {
 						// Set Sessions
 						$this->session->set($userInfo);
 						
-						print_r('(Success:)');
-						
 					}else{
 						// password_verify -> False
-						print_r('Wrong Password (Error:Login)');
+                        $response['error'] = 'Wrong Password';
+                        
 					}
 				}else{
 					// $result -> False
-					print_r('There is no user with this email (Error:Login)');
+                    $response['error'] = 'There is no user with this email';
 				}
 				
 			}else{
 				// filter_var -> False
-				print_r('Invalid email (Error:Login)');
+                $response['error'] = 'Invalid email';
 			}
+
+            
+                
+            return $this->response
+                        ->setJSON($response);
+            
 		}
 	}
 	
+
+    // Handl Register ::Creating User
 	public function handleRegister(){
+        $response = ['method' => 'register', 'error' => ''];
+
 		// Check for AJAX request.
 		if ($this->request->isAJAX()) {
 			$fname = htmlspecialchars($this->request->getPost('firstName'));
@@ -87,17 +107,18 @@ class Login extends BaseController {
 					// Set Sessions
 					$this->session->set($newUser);
 					
-					print_r('(Success:)');
-					
 				}else{
 					// empty -> False
-					print_r('Email is alraedy exists (Error:Register)');
+                    $response['error'] = 'Email is alraedy exists';
 				}
 				
 			}else{
 				// filter_var -> False
-				print_r('Invalid email (Error:Register)');
+                $response['error'] = 'Invalid email';
 			}
+
+            return $this->response
+                        ->setJSON($response);
 		}
 	}
 }
