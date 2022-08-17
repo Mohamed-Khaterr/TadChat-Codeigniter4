@@ -40,13 +40,7 @@ conn.onmessage = function(e) {
                 addAnswer(data.answer);
 
             }else if(data.type == 'ice'){
-                if(peerConn){
-                    peerConn.addIceCandidate(data.ice).then(function () {
-                        console.log('Add ICE Candidate!');
-                    }).catch(e => {
-                        console.log("Failure during addIceCandidate(): " + e.name);
-                    });
-                }
+                addRemoteIceCandidate(data.ice);
             }
 			
 

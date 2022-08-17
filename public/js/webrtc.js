@@ -66,7 +66,7 @@ async function peerConnection(){
 		if(e.candidate){
 			console.log('New ICE Candidate!');
 			// Send ICE Candidate to other Peer
-			conn.send(JSON.stringify({type: 'ice', ice: e.candidate}));
+			conn.send(JSON.stringify({type: 'ice', ice: e.candidate.toJSON()}));
 		}
 	};
 }
@@ -80,7 +80,7 @@ async function createOffer(){
 	await peerConn.setLocalDescription(offer).then(function () {
         console.log('Offer Set Local Description');
         // Then Send this offer
-	    conn.send(JSON.stringify({type: 'offer', offer: offer}));
+	    conn.send(JSON.stringify({type: 'offer', offer: offer.toJSON()}));
     });
 
     
@@ -88,7 +88,16 @@ async function createOffer(){
 }
 
 // Local Client
-async function addAnswer(answer){
+async function addAnswer(remoteAnswer){
+    let answer;
+    if(remoteAnswer instanceof RTCSessionDescription){
+        answer = remoteAnswer;
+    }else{
+        answer = new RTCSessionDescription();
+        answer.type = remoteAnswer.type
+        answer.sdp = remoteAnswer.sdp
+    }
+
     if(!peerConn.currentRemoteDescription){
         peerConn.setRemoteDescription(answer).then(function () {
             console.log('Answer Set Remote Description!');
@@ -97,8 +106,17 @@ async function addAnswer(answer){
 }
 
 // Remote Client
-async function createAnswer(offer){
+async function createAnswer(remoteOffer){
     await peerConnection();
+
+    let offer;
+    if(remoteOffer instanceof RTCSessionDescription){
+        offer = remoteOffer;
+    }else{
+        offer = new RTCSessionDescription();
+        offer.type = remoteOffer.type
+        offer.sdp = remoteOffer.sdp
+    }
 
     await peerConn.setRemoteDescription(offer).then(function (){
         console.log('Offer Set Remote Description');
@@ -108,10 +126,32 @@ async function createAnswer(offer){
     let answer = await peerConn.createAnswer();
     await peerConn.setLocalDescription(answer).then(function (){
         console.log('Answer Set Local Description');
-        conn.send(JSON.stringify({type: 'answer', answer: answer}));
+        conn.send(JSON.stringify({type: 'answer', answer: answer.toJSON()}));
     });
 }
 
+
+async function addRemoteIceCandidate(remoteIceCandidate){
+    let candidate;
+
+    if(remoteIceCandidate instanceof RTCIceCandidate ){
+        candidate = remoteIceCandidate
+    }else{
+        candidate = new RTCIceCandidate({
+            candidate: remoteIceCandidate.candidate,
+            sdpMid: remoteIceCandidate.sdpMid,
+            sdpMLineIndex: remoteIceCandidate.sdpMLineIndex,
+        });
+    }
+
+    if(peerConn){
+        await peerConn.addIceCandidate(candidate).then(function () {
+            console.log('Add ICE Candidate!');
+        }).catch(e => {
+            console.log("Failure during addIceCandidate(): " + e.name);
+        });
+    }
+}
 
 
 // when popupModel is closed this method is called
