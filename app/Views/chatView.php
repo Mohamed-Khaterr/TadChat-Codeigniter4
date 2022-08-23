@@ -324,7 +324,7 @@ document.getElementById('sendBtn').addEventListener("click", function(){
 
 <script>
     // This constant that websocket use when inital
-    const ip = '<?= IP ?>'
+    const domain = '<?= DOMAIN ?>'
 </script>
 
 <script src="<?= base_url("js/websocket.js") ?>"></script>

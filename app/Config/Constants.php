@@ -104,4 +104,4 @@ define('EVENT_PRIORITY_HIGH', 10);
  |
  */
 
-defined('IP') || define('IP', '192.168.1.3');
+defined('DOMAIN') || define('DOMAIN', '192.168.1.3');
