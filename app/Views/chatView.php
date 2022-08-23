@@ -226,14 +226,6 @@ body{margin-top:20px;}
 <script type="text/javascript" src="<?= base_url('js/mdb.min.js') ?>"></script>
 
 <script type="text/javascript" >
-<?php 
-    // iPhone
-    if(empty($user_id)){
-        $user_id = 5;
-        $firstName = 'iPhone';
-        $lastName = '6s';
-    } 
-?>
 
 const current_user_id = '<?= $user_id ?>';
 const current_firstName = '<?= $firstName ?>';
@@ -334,5 +326,6 @@ document.getElementById('sendBtn').addEventListener("click", function(){
     // This constant that websocket use when inital
     const ip = '<?= IP ?>'
 </script>
-<script src="/js/websocket.js"></script>
-<script src="/js/webrtc.js"></script>
+
+<script src="<?= base_url("js/websocket.js") ?>"></script>
+<script src="<?= base_url("js/webrtc.js") ?>"></script>

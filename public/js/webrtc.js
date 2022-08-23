@@ -47,6 +47,8 @@ var servers= {
 	]
 }
 
+servers = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
+
 // When you call this function do not forget to add await: await peerConn() or ICE Candidate wont gather
 async function peerConnection(){
     peerConn = new RTCPeerConnection(servers);
@@ -145,12 +147,16 @@ async function addRemoteIceCandidate(remoteIceCandidate){
     }
 
     if(peerConn){
-        await peerConn.addIceCandidate(candidate).then(function () {
+        await peerConn.addIceCandidate(remoteIceCandidate).then(function () {
             console.log('Add ICE Candidate!');
         }).catch(e => {
-            console.log("Failure during addIceCandidate(): " + e.name);
+            console.log("Failure during addIceCandidate(): " + e);
         });
     }
+
+    peerConn.onconnectionstatechange = (ev) => {
+        console.log("Connection State: ", peerConn.connectionState)
+    };
 }
 
 
